@@ -36,7 +36,7 @@ const CategoryPage = () => {
         } else {
           const endpoint = categoryEndpoints[category] || endpoints.popular;
           const response = await tmdbApi.get(endpoint);
-          setMovies(response.data.results);
+          setMovies(response.data.results); 
         }
       } catch (error) {
         console.error('Error fetching movies:', error);
