@@ -11,12 +11,6 @@ const CategoryPage = () => {
   const [selectedGenre, setSelectedGenre] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const categoryEndpoints = {
-    trending: endpoints.trending,
-    'top-rated': endpoints.topRated,
-    popular: endpoints.popular,
-  };
-
   const categoryTitles = {
     trending: 'Trending Movies',
     'top-rated': 'Top Rated Movies',
@@ -24,10 +18,16 @@ const CategoryPage = () => {
   };
 
   useEffect(() => {
+    const categoryEndpoints = {
+      trending: endpoints.trending,
+      'top-rated': endpoints.topRated,
+      popular: endpoints.popular,
+    };
+
     const fetchMovies = async () => {
       try {
         setLoading(true);
-        
+
         if (selectedGenre) {
           const response = await tmdbApi.get(endpoints.discover, {
             params: { with_genres: selectedGenre },
@@ -36,7 +36,7 @@ const CategoryPage = () => {
         } else {
           const endpoint = categoryEndpoints[category] || endpoints.popular;
           const response = await tmdbApi.get(endpoint);
-          setMovies(response.data.results); 
+          setMovies(response.data.results);
         }
       } catch (error) {
         console.error('Error fetching movies:', error);
@@ -56,12 +56,12 @@ const CategoryPage = () => {
         <h1 className="text-white text-4xl font-bold mb-8">
           {categoryTitles[category] || 'Movies'}
         </h1>
-        
-        <GenreFilter 
-          selectedGenre={selectedGenre} 
-          onGenreChange={setSelectedGenre} 
+
+        <GenreFilter
+          selectedGenre={selectedGenre}
+          onGenreChange={setSelectedGenre}
         />
-        
+
         <MovieGrid movies={movies} />
       </div>
     </div>
